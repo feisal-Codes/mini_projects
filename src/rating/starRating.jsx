@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
-import { useColorContext } from "../App";
+import { useColorContext } from "../context/ColorProvider";
 
 const createArr = (length) => {
   let arr = [...Array(length)];

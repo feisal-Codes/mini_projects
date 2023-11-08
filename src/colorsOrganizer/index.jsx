@@ -1,12 +1,10 @@
-import { createContext, useEffect, useState } from "react";
-import { StarsRating } from "../../rating/starRating";
-import { colorsList } from "./colorList";
+import { useState } from "react";
+import { StarsRating } from "../rating/starRating";
 import { FaTrash } from "react-icons/fa";
-import { v4 as uuidv4 } from "uuid";
-import { useColorContext } from "../../App";
+import { useColorContext } from "../context/ColorProvider";
 
 const ColorOrganizer = () => {
-  const [colors, setColors] = useColorContext();
+  const [colors, onAddColor] = useColorContext();
   const { data: colorsData } = colors;
 
   const [formValues, setFormValues] = useState({
@@ -14,27 +12,9 @@ const ColorOrganizer = () => {
     title: "",
   });
 
-  const onRemove = (id) => {
-    let filteredColors = colorsData?.filter((color) => color.id !== id);
-    setColors((prev) => ({ ...prev, data: filteredColors }));
-  };
-
-  const onAddColor = () => {
-    const color = { id: uuidv4(), rating: 0, ...formValues };
-    console.log(color);
-    let isPresent = colorsData?.find(
-      (color) => color.color === formValues.color
-    );
-    if (isPresent) {
-      return;
-    }
-    let updatedColors = [color, ...colorsData];
-    setColors((prev) => ({ ...prev, data: updatedColors }));
-  };
-
   const onSubmit = (e) => {
     e.preventDefault();
-    onAddColor();
+    onAddColor(formValues);
   };
 
   const handleChange = (e) => {
@@ -45,7 +25,7 @@ const ColorOrganizer = () => {
   return (
     <div>
       {colorsData?.map((color) => (
-        <Color key={color.id} color={color} onRemove={onRemove} />
+        <Color key={color.id} color={color} />
       ))}
 
       <AddColorForm
@@ -59,12 +39,14 @@ const ColorOrganizer = () => {
 
 export default ColorOrganizer;
 
-const Color = ({ color, onRemove }) => {
+const Color = ({ color }) => {
+  const [, , onRemoveColor] = useColorContext();
+
   return (
     <div>
       <div
         onClick={() => {
-          onRemove(color.id);
+          onRemoveColor(color.id);
         }}
       >
         <FaTrash />
