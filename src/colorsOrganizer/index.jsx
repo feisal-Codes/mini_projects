@@ -2,6 +2,7 @@ import { useState } from "react";
 import { StarsRating } from "../rating/starRating";
 import { FaTrash } from "react-icons/fa";
 import { useColorContext } from "../context/ColorProvider";
+import PropTypes from "prop-types";
 
 const ColorOrganizer = () => {
   const [colors, onAddColor] = useColorContext();
@@ -25,7 +26,7 @@ const ColorOrganizer = () => {
   return (
     <div>
       {colorsData?.map((color) => (
-        <Color key={color.id} color={color} />
+        <Color key={color.id} color={color} type="blue" />
       ))}
 
       <AddColorForm
@@ -39,30 +40,37 @@ const ColorOrganizer = () => {
 
 export default ColorOrganizer;
 
-const Color = ({ color }) => {
+const Color = ({ color, type }) => {
   const [, , onRemoveColor] = useColorContext();
 
   return (
     <div>
       <div
-        onClick={() => {
-          onRemoveColor(color.id);
-        }}
+      // onClick={() => {
+      //   onRemoveColor(color.id);
+      // }}
       >
         <FaTrash />
       </div>
-      <h3>{color.title}</h3>
+      {/* <h3>{color.title}</h3> */}
       <div
         style={{
-          backgroundColor: color.color,
+          // backgroundColor: color.color,
           width: "80%",
           height: "20px",
         }}
       ></div>
-      <p>Hex code: {color.color}</p>
-      <StarsRating id={color.id} />
+      {/* <p>Hex code: {color.color}</p> */}
+      {/* <StarsRating id={color.id} /> */}
     </div>
   );
+};
+
+Color.propTypes = {
+  color: PropTypes.object.isRequired,
+  type: PropTypes.oneOf(["red", "green"]).isRequired,
+
+  // type: PropTypes.oneOf(["open", "closed"]),
 };
 
 const AddColorForm = ({ onSubmit, handleChange, formValues }) => {

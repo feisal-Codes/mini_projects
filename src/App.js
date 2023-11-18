@@ -11,8 +11,8 @@ function App() {
     <div className="App">
       {/* <Puzzle /> */}
       {/* <Rating /> */}
-      {/* <ColorOrganizer /> */}
-      <MultiStepForm />
+      <ColorOrganizer />
+      {/* <MultiStepForm /> */}
     </div>
   );
 }
